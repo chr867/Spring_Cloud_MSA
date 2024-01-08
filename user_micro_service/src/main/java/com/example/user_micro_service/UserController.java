@@ -5,16 +5,12 @@ import com.example.user_micro_service.jpa.UserEntity;
 import com.example.user_micro_service.service.UserService;
 import com.example.user_micro_service.vo.Greeting;
 import com.example.user_micro_service.vo.RequestUser;
-import com.example.user_micro_service.vo.ResponseOrder;
 import com.example.user_micro_service.vo.ResponseUser;
-import com.netflix.discovery.converters.Auto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-service")
+//@RequestMapping("/user-service")
 // Gateway 를 통할 땐 Root 값에 application-name 을 추가 해줘야함
+@RequestMapping("/")
+// section 6: filter 에서 RewritePath 사용으로 user-service 삭제
 @RequiredArgsConstructor
 public class UserController {
     private final Environment env;
