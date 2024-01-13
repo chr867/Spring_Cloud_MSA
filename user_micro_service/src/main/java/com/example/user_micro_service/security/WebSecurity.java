@@ -21,7 +21,8 @@ public class WebSecurity{
 
     private static final String[] WHITE_LIST = {
             "/users/**",
-            "/**"
+            "/**",
+            "/actuator/**"
     };
 
     @Bean

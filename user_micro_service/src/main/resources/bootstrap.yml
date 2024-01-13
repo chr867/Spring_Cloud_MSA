@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      uri: http://121.142.206.11:8888
+      name: ecommerce
+  profiles:
+    active: dev
