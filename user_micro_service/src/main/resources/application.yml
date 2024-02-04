@@ -42,7 +42,8 @@ greeting:
 
 logging:
   level:
-    com.example.user_micro_service: DEBUG
+#    com.example.user_micro_service: DEBUG
+    com.example.user_micro_service.client: DEBUG
 
 #token:
 #  expiration_time: 86400000
@@ -53,3 +54,4 @@ management:
     web:
       exposure:
         include: refresh, health, beans, busrefresh
+
