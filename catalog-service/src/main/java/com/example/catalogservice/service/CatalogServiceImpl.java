@@ -1,4 +1,4 @@
-package com.example.catalogservice;
+package com.example.catalogservice.service;
 
 import com.example.catalogservice.jpa.CatalogEntity;
 import com.example.catalogservice.jpa.CatalogRepository;
