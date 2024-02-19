@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -38,6 +40,8 @@ public class UserServiceImpl implements UserService {
     private final Environment env;
 
     private final OrderServiceClient orderServiceClient;
+
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
     private final Logger.Level logger;
 
@@ -85,9 +89,18 @@ public class UserServiceImpl implements UserService {
 //        }
 
         /* ErrorDecoder */
-        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
-        /* Using as Web client */
+//        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
 
+        /* CircuitBreaker */
+        log.info("Before Call orders microservice");
+        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitBreaker");
+        List<ResponseOrder> orderList = circuitBreaker.run(() ->
+                /* getOrders 함수를 실행 */
+                orderServiceClient.getOrders(userId),
+                /* 에러가 발생할 시 비어있는 ArrayList 반환 */
+                throwable -> new ArrayList<>()
+        );
+        log.info("Before Call orders microservice");
         userDto.setOrders(orderList);
 
         return userDto;
