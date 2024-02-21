@@ -33,6 +33,15 @@ spring:
           predicates:
             - Path=/order-service/**
 
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/actuator/**
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
@@ -83,7 +92,8 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, httpexchanges, busrefresh
+        include: refresh, health, beans, httpexchanges, busrefresh, info, metrics, prometheus
+
 
 #token:
 #  secret: user_token

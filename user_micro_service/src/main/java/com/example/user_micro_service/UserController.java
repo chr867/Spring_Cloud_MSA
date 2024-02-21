@@ -6,6 +6,7 @@ import com.example.user_micro_service.service.UserService;
 import com.example.user_micro_service.vo.Greeting;
 import com.example.user_micro_service.vo.RequestUser;
 import com.example.user_micro_service.vo.ResponseUser;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -28,6 +29,7 @@ public class UserController {
     private final Greeting greeting;
     private final UserService userService;
 
+    @Timed(value="users.status", longTask = true)
     @GetMapping("/health_check")
     public String status()
     {
@@ -38,6 +40,7 @@ public class UserController {
                 + ", token expiration time=" + env.getProperty("token.expiration_time");
     }
 
+    @Timed(value="users.welcome", longTask = true)
     @GetMapping("/welcome")
     public String welcome(){
         return greeting.getMessage();
